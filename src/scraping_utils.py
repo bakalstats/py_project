@@ -82,3 +82,11 @@ def get_books_data(category_urls: dict):
             if book_info:
                 books_data = books_data.append(book_info)
     return books_data
+
+# TODO please try making this work
+def get_books_data_v2():
+    book_urls = get_book_urls_from_category_urls(category_urls)
+    books_info = get_book_info(book_urls)
+
+
+

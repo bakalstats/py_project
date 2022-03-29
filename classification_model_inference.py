@@ -19,13 +19,20 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     # upload model
+    # TODO more correct comment would be read or load
+
+    # This block could become a function
     with open(args.model_file, 'rb') as f:
         multilabel_binarizer, model = pickle.load(f)
     categories = multilabel_binarizer.classes_
+
     # upload and clean new data
+    # TODO if its a comment, why not make it a function?
     df = pd.read_parquet(args.data_input_file)
     df = preprocess_data(df, is_training=False)
+
     # run inference
+    # TODO if its a comment, why not make it a function?
     y_pred = model.predict_proba(df[TEXT_COL])
     y_pred = [multilabel_predictions(i, CLASSIFICATION_THRESHOLD) for i in y_pred]
     df[CATEGORY_COL] = [[k for j, k in zip(i,categories) if j == 1] for i in y_pred]
