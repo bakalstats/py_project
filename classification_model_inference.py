@@ -4,11 +4,6 @@ import pandas as pd
 from src.modeling_utils import *
 
 
-# y_pred = [[k for j, k in zip(i,categories) if j>=0.25] for i in y_pred]
-# y_test = [[k for j, k in zip(i, categories) if j == 1] for i in y_test]
-# res = [1 if i==j else 0 for i,j in zip(y_pred,y_test)]
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Classification model training")
     parser.add_argument(
