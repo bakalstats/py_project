@@ -4,11 +4,6 @@ import pandas as pd
 from src.modeling_utils import *
 
 
-# y_pred = [[k for j, k in zip(i,categories) if j>=0.25] for i in y_pred]
-# y_test = [[k for j, k in zip(i, categories) if j == 1] for i in y_test]
-# res = [1 if i==j else 0 for i,j in zip(y_pred,y_test)]
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Classification model training")
     parser.add_argument(
@@ -23,15 +18,8 @@ if __name__ == "__main__":
         default="data/new_data.parquet",
     )
     args = parser.parse_args()
-    # upload model
-    with open(args.model_file, 'rb') as f:
-        multilabel_binarizer, model = pickle.load(f)
-    categories = multilabel_binarizer.classes_
-    # upload and clean new data
-    df = pd.read_parquet(args.data_input_file)
+    multilabel_binarizer, model = upload_model(args.model_file)
+    df = upload_data(args.data_input_file)
     df = preprocess_data(df, is_training=False)
-    # run inference
-    y_pred = model.predict_proba(df[TEXT_COL])
-    y_pred = [multilabel_predictions(i, CLASSIFICATION_THRESHOLD) for i in y_pred]
-    df[CATEGORY_COL] = [[k for j, k in zip(i,categories) if j == 1] for i in y_pred]
+    df = predict_categories(model, df, multilabel_binarizer.classes_)
     df.to_parquet(args.data_input_file)

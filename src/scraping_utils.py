@@ -80,5 +80,5 @@ def get_books_data(category_urls: dict):
         for book_url in book_urls:
             book_info = get_single_book_info(book_url, category)
             if book_info:
-                books_data = books_data.append(book_info)
+                books_data += list(book_info)
     return books_data
