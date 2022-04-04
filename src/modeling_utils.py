@@ -109,7 +109,7 @@ def single_concurrence_score(y_true, y_pred):
 def book_search(query, df, model, top_k=3):
     query_embedding = model.encode([query])
     df[DISTANCE_COL] = [np.linalg.norm(query_embedding - i) for i in df[EMBEDDINGS_COL]]
-    search_result = df.sort_values([DISTANCE_COL], ascending=False).head(top_k)
+    search_result = df.sort_values([DISTANCE_COL], ascending=True).head(top_k)
     return search_result[[TITLE_COL, AUTHOR_COL, DESCRIPTION_COL, CATEGORY_COL]]
 
 
